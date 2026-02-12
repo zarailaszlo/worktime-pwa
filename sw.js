@@ -1,5 +1,5 @@
 /* Offline-first service worker (cache-first for static assets) */
-const CACHE = 'worktime-pwa-v2';
+const CACHE = 'worktime-pwa-v3';
 const ASSETS = [
   './',
   './index.html',

@@ -226,9 +226,8 @@ function renderToday(){
             <button class="seg__btn seg__btn--active" data-action="mode" data-target="in" data-mode="now">Most</button>
             <button class="seg__btn" data-action="mode" data-target="in" data-mode="manual">Kézzel</button>
           </div>
-          <div class="row" id="inManual" hidden>
+          <div class="modeManual" id="inManual" hidden>
             <input class="input" type="time" id="inTime" step="60" />
-            <button class="btn btn--secondary" data-action="fillNow" data-target="in">Most</button>
           </div>
           <div class="small" id="inHelp"></div>
         </div>
