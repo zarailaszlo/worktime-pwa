@@ -87,7 +87,9 @@ body{
 .btn--ghost{background:transparent;color:var(--text);border:1px dashed var(--border)}
 
 .input{
+  display:block;
   width:100%;
+  min-width:0;
   background:var(--panel2);
   border:1px solid var(--border);
   border-radius: 14px;
@@ -246,7 +248,7 @@ body{
 
 .divider{height:1px;background:var(--border);margin:14px 0}
 
-.field{margin-bottom:14px}
+.field{margin-bottom:14px;min-width:0}
 .field label{display:block;color:var(--muted);font-size:12px;margin:6px 0 6px}
 
 .seg{
@@ -309,6 +311,7 @@ body{
 .listItem__right{font-weight:900}
 
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid2 > *{min-width:0}
 @media (max-width:700px){.grid2{grid-template-columns:1fr}}
 
 .rules{display:flex;flex-direction:column;gap:12px}
