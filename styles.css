@@ -314,6 +314,17 @@ body{
 .grid2 > *{min-width:0}
 @media (max-width:700px){.grid2{grid-template-columns:1fr}}
 
+
+.card--test{overflow:hidden}
+
+.card--test .input[type="date"],
+.card--test .input[type="time"]{
+  -webkit-appearance:none;
+  appearance:none;
+  width:100%;
+  max-width:100%;
+}
+
 .rules{display:flex;flex-direction:column;gap:12px}
 .ruleRow{
   background:rgba(255,255,255,.03);
