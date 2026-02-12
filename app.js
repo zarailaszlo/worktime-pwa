@@ -270,9 +270,8 @@ function renderToday(){
             <button class="seg__btn seg__btn--active" data-action="mode" data-target="out" data-mode="now">Most</button>
             <button class="seg__btn" data-action="mode" data-target="out" data-mode="manual">Kézzel</button>
           </div>
-          <div class="row" id="outManual" hidden>
+          <div class="modeManual" id="outManual" hidden>
             <input class="input" type="time" id="outTime" step="60" />
-            <button class="btn btn--secondary" data-action="fillNow" data-target="out">Most</button>
           </div>
           <div class="small" id="outHelp"></div>
         </div>
@@ -337,6 +336,10 @@ function renderToday(){
   }
 
   VIEW.innerHTML = body;
+
+  if(currentMode('in') === 'now') fillNow('in');
+  if(currentMode('out') === 'now') fillNow('out');
+
   ensureTicker();
 }
 
