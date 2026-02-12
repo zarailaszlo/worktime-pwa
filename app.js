@@ -226,9 +226,8 @@ function renderToday(){
             <button class="seg__btn seg__btn--active" data-action="mode" data-target="in" data-mode="now">Most</button>
             <button class="seg__btn" data-action="mode" data-target="in" data-mode="manual">Kézzel</button>
           </div>
-          <div class="row" id="inManual" hidden>
+          <div class="modeManual" id="inManual" hidden>
             <input class="input" type="time" id="inTime" step="60" />
-            <button class="btn btn--secondary" data-action="fillNow" data-target="in">Most</button>
           </div>
           <div class="small" id="inHelp"></div>
         </div>
@@ -271,9 +270,8 @@ function renderToday(){
             <button class="seg__btn seg__btn--active" data-action="mode" data-target="out" data-mode="now">Most</button>
             <button class="seg__btn" data-action="mode" data-target="out" data-mode="manual">Kézzel</button>
           </div>
-          <div class="row" id="outManual" hidden>
+          <div class="modeManual" id="outManual" hidden>
             <input class="input" type="time" id="outTime" step="60" />
-            <button class="btn btn--secondary" data-action="fillNow" data-target="out">Most</button>
           </div>
           <div class="small" id="outHelp"></div>
         </div>
@@ -338,6 +336,10 @@ function renderToday(){
   }
 
   VIEW.innerHTML = body;
+
+  if(currentMode('in') === 'now') fillNow('in');
+  if(currentMode('out') === 'now') fillNow('out');
+
   ensureTicker();
 }
 
@@ -542,6 +544,12 @@ function toggleMode(target, mode){
   segBtns.forEach(b => b.classList.toggle("seg__btn--active", b.dataset.mode === mode));
   const row = document.getElementById(target === "in" ? "inManual" : "outManual");
   if(row) row.hidden = (mode !== "manual");
+
+  if(mode === "now"){
+    fillNow(target);
+    return;
+  }
+
   if(mode === "manual"){
     const input = document.getElementById(target === "in" ? "inTime" : "outTime");
     if(input && !input.value) input.value = formatTimeHMFromMs(nowMs());
