@@ -541,6 +541,12 @@ function toggleMode(target, mode){
   segBtns.forEach(b => b.classList.toggle("seg__btn--active", b.dataset.mode === mode));
   const row = document.getElementById(target === "in" ? "inManual" : "outManual");
   if(row) row.hidden = (mode !== "manual");
+
+  if(mode === "now" && target === "in"){
+    fillNow('in');
+    return;
+  }
+
   if(mode === "manual"){
     const input = document.getElementById(target === "in" ? "inTime" : "outTime");
     if(input && !input.value) input.value = formatTimeHMFromMs(nowMs());
