@@ -198,6 +198,8 @@ body{
 .modal__footer{display:flex;gap:10px; margin-top:12px}
 .modal__footer .btn{flex:1}
 
+.toast[hidden]{display:none}
+
 .toast{
   position:fixed;
   left:12px;right:12px;
