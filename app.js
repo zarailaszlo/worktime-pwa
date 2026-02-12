@@ -14,7 +14,13 @@ const TOAST = document.getElementById('toast');
 const TOAST_TEXT = document.getElementById('toastText');
 const TOAST_ACTION = document.getElementById('toastAction');
 const TOAST_CLOSE = document.getElementById('toastClose');
-const APP_VERSION = '0.2';
+const APP_VERSION = resolveAppVersion();
+
+function resolveAppVersion(){
+  const fromHtml = document.documentElement.dataset.appVersion?.trim();
+  if(fromHtml && !fromHtml.includes('${')) return fromHtml;
+  return '0.2';
+}
 
 let state = {
   tab: 'today',
