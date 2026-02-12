@@ -19,7 +19,7 @@ const APP_VERSION = resolveAppVersion();
 function resolveAppVersion(){
   const fromHtml = document.documentElement.dataset.appVersion?.trim();
   if(fromHtml && !fromHtml.includes('${')) return fromHtml;
-  return '0.2';
+  return '0.4';
 }
 
 let state = {
@@ -384,7 +384,7 @@ function renderLog(){
 function renderTest(){
   stopTicker();
   VIEW.innerHTML = html`
-    <div class="card">
+    <div class="card card--test">
       <div class="h2">Teszt (nem ment)</div>
       <div class="small">Két dátum+idő alapján ugyanazzal a szabálymotorral számol.</div>
       <div class="divider"></div>
