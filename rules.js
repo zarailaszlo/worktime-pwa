@@ -23,16 +23,23 @@ export function normalizeRules(rules){
 }
 
 export function deductionMinutes(grossMinutes, rules){
-  let deduction = 0;
-  for(const r of normalizeRules(rules)){
-    if(grossMinutes > r.thresholdMin) deduction = r.deductionMin;
-  }
-  return deduction;
+  const netMinutes = netMinutesFromGross(grossMinutes, rules);
+  return Math.max(0, grossMinutes - netMinutes);
 }
 
 export function netMinutesFromGross(grossMinutes, rules){
-  const d = deductionMinutes(grossMinutes, rules);
-  return Math.max(0, grossMinutes - d);
+  let netMinutes = Math.max(0, Math.floor(grossMinutes));
+  let prevDeduction = 0;
+
+  for(const r of normalizeRules(rules)){
+    if(grossMinutes < r.thresholdMin) break;
+
+    const thresholdNet = Math.max(0, r.thresholdMin - prevDeduction);
+    netMinutes = Math.max(thresholdNet, grossMinutes - r.deductionMin);
+    prevDeduction = r.deductionMin;
+  }
+
+  return Math.max(0, netMinutes);
 }
 
 export function summarizeWork(startMs, endMs, rules){
@@ -43,32 +50,27 @@ export function summarizeWork(startMs, endMs, rules){
   return { grossMinutes, deductionMin, netMinutes };
 }
 
-function buildSegments(rules){
-  const rr = normalizeRules(rules);
-  const segments = [];
-  let prevThreshold = -1;
-  let prevDed = 0;
-  for(const r of rr){
-    const end = r.thresholdMin;
-    segments.push({ minGross: Math.max(0, prevThreshold + 1), maxGross: end, deductionMin: prevDed });
-    prevThreshold = r.thresholdMin;
-    prevDed = r.deductionMin;
-  }
-  segments.push({ minGross: Math.max(0, prevThreshold + 1), maxGross: Infinity, deductionMin: prevDed });
-  return segments;
-}
-
 export function targetGrossForNet(targetNetMinutes, rules){
   if(targetNetMinutes <= 0) return 0;
-  const segments = buildSegments(rules);
-  for(const seg of segments){
-    const grossNeeded = targetNetMinutes + seg.deductionMin;
-    if(grossNeeded >= seg.minGross && grossNeeded <= seg.maxGross){
-      return grossNeeded;
+
+  const target = Math.floor(targetNetMinutes);
+  let low = 0;
+  let high = Math.max(1, target);
+
+  while(netMinutesFromGross(high, rules) < target){
+    high *= 2;
+  }
+
+  while(low < high){
+    const mid = Math.floor((low + high) / 2);
+    if(netMinutesFromGross(mid, rules) >= target){
+      high = mid;
+    }else{
+      low = mid + 1;
     }
   }
-  // Should never happen due to Infinity last segment
-  return targetNetMinutes;
+
+  return low;
 }
 
 export function targetTimeMsForNet({checkInMs, targetNetMinutes, rules}){

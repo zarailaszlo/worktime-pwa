@@ -289,7 +289,7 @@ function renderToday(){
             return `<div class="list__row"><div><b>${label}</b></div><div class="right">${escapeHtml(time)}</div></div>`;
           }).join('')}
         </div>
-        <div class="small">A nettó idő 6:00 átlépésekor visszaeshet (szünetlevonás) – ez szándékos.</div>
+        <div class="small">A nettó idő küszöb után fokozatosan épül tovább (pl. 6:00–6:30 bruttó között nettó 6:00).</div>
       </div>
     `;
   } else {
@@ -431,7 +431,7 @@ function renderSettings(){
 
     <div class="card">
       <div class="h2">Szünetlevonás szabályai</div>
-      <div class="small">Érvényesül: a legnagyobb teljesülő küszöb levonása (feltétel: bruttó > küszöb).</div>
+      <div class="small">Érvényesül: küszöbönként levonás, de a nettó nem eshet a küszöb nettó értéke alá (pl. 6:00–6:30 között nettó 6:00).</div>
       <div class="divider"></div>
       <div class="rules" id="rules">
         ${rules.map((r, i) => {
